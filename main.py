@@ -31,6 +31,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
+async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    message = 'Successfully registered series!'
+    logger.info(type(update.message.text))
+    await context.bot.send_message(
+        chat_id=update.effective_chat.id, text=message
+    )
+
+
 # Function to reply a message in CAPS
 async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text_caps = ' '.join(context.args).upper()
@@ -61,10 +69,12 @@ def main() -> None:
     # Register the commands
     start_handler = CommandHandler('start', start)
     caps_handler = CommandHandler('caps', caps)
+    set_handler = CommandHandler('set', set_register)
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
 
     application.add_handler(echo_handler)
     application.add_handler(caps_handler)
+    application.add_handler(set_handler)
     application.add_handler(start_handler)
 
     # Start app until killed
