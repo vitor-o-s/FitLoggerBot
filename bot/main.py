@@ -35,6 +35,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    This function save a set in the database.
+    """
     if context.args:
         args_str = ' '.join(context.args)
         try:
@@ -45,7 +48,7 @@ async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reps = int(reps)
             weight = float(weight)
             load = reps * weight
-
+            # TODO: save this in a database with date and user_id
             message = (
                 f'Successfully registered:\n'
                 f'{exercise_name}\n'
@@ -65,12 +68,34 @@ async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
 
 
-# Function to reply a message in CAPS
-async def caps(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    text_caps = ' '.join(context.args).upper()
-    await context.bot.send_message(
-        chat_id=update.effective_chat.id, text=text_caps
-    )
+async def exercise_register(
+    update: Update, context: ContextTypes.DEFAULT_TYPE
+):
+    """
+    This function save varios sets of an exercise in the database.
+    """
+    pass
+
+
+async def workout_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    This function save a full workout in the database.
+    """
+    pass
+
+
+async def today_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    This function returns the today status, broken down by set and total of the workout.
+    """
+    pass
+
+
+async def stats_by_day(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    This function returns the status of the day, broken down by set and total of the workout.
+    """
+    pass
 
 
 # Function echo - reply same text if its not a command
@@ -95,12 +120,10 @@ def main() -> None:
     # Register the commands
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
     set_handler = CommandHandler('set', set_register)
-    caps_handler = CommandHandler('caps', caps)
     start_handler = CommandHandler('start', start)
 
     application.add_handler(echo_handler)
     application.add_handler(set_handler)
-    application.add_handler(caps_handler)
     application.add_handler(start_handler)
 
     # Start app until killed
