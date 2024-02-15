@@ -18,8 +18,16 @@ logger = logging.getLogger(__name__)
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user = update.effective_user.first_name
+    message = (
+        f"Hello {user}, I am a bot. Please let me help with your training!\n"
+        "If you want:\n"
+        "1 - Register one set type: /set\n"
+        "2 - Help: /help"
+    )
+
     await context.bot.send_message(
-        chat_id=update.effective_chat.id, text="I'm a bot, please talk to me!"
+        chat_id=update.effective_chat.id, text=message
     )
 
 
