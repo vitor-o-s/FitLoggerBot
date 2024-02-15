@@ -32,8 +32,31 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    message = 'Successfully registered series!'
-    logger.info(type(update.message.text))
+    if context.args:
+        args_str = ' '.join(context.args)
+        try:
+            exercise_name, reps, weight = [
+                arg.strip() for arg in args_str.split(',')
+            ]
+
+            reps = int(reps)
+            weight = float(weight)
+            load = reps * weight
+
+            message = (
+                f'Successfully registered:\n'
+                f'{exercise_name}\n'
+                f'{reps} reps - {weight}kg\n'
+                f'Load - {load}'
+            )
+
+        except ValueError as e:
+            logger.error(f'Error processing arguments: {e}')
+            message = 'Error processing your request. Please use the format: /set Exercise Name, Repetitions, Weight(kg)'
+    else:
+        # If has no args
+        message = 'Please provide the exercise details in the format: /set Exercise Name, Repetitions, Weight (kg)'
+
     await context.bot.send_message(
         chat_id=update.effective_chat.id, text=message
     )
