@@ -20,10 +20,10 @@ logger = logging.getLogger(__name__)
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user = update.effective_user.first_name
     message = (
-        f"Hello {user}, I am a bot. Please let me help with your training!\n"
-        "If you want:\n"
-        "1 - Register one set type: /set\n"
-        "2 - Help: /help"
+        f'Hello {user}, I am a bot. Please let me help with your training!\n'
+        'If you want:\n'
+        '1 - Register one set type: /set\n'
+        '2 - Help: /help'
     )
 
     await context.bot.send_message(
@@ -67,14 +67,14 @@ def main() -> None:
     application = ApplicationBuilder().token(token).build()
 
     # Register the commands
-    start_handler = CommandHandler('start', start)
-    caps_handler = CommandHandler('caps', caps)
-    set_handler = CommandHandler('set', set_register)
     echo_handler = MessageHandler(filters.TEXT & (~filters.COMMAND), echo)
+    set_handler = CommandHandler('set', set_register)
+    caps_handler = CommandHandler('caps', caps)
+    start_handler = CommandHandler('start', start)
 
     application.add_handler(echo_handler)
-    application.add_handler(caps_handler)
     application.add_handler(set_handler)
+    application.add_handler(caps_handler)
     application.add_handler(start_handler)
 
     # Start app until killed
