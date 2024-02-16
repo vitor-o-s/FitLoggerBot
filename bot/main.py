@@ -86,17 +86,24 @@ async def workout_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def today_stats(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
-    This function returns the today status, broken down by set and total of the workout.
+    This function returns today stats, broken down by set and total of the workout.
     """
     pass
 
 
 async def stats_by_day(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """
-    This function returns the status of the day, broken down by set and total of the workout.
+    This function returns the stats of the day, broken down by set and total of the workout.
     """
     pass
 
+
+async def report_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """
+    This function save your daily status.
+    It's an open field. It is possible to report pain, how you slept, how you ate, etc.
+    """
+    pass
 
 # Function echo - reply same text if its not a command
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
