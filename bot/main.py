@@ -6,6 +6,7 @@ from telegram.ext import (
     MessageHandler,
     filters,
 )
+from db import save_workout
 import logging
 import os
 
@@ -48,13 +49,16 @@ async def set_register(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reps = int(reps)
             weight = float(weight)
             load = reps * weight
+            if save_workout(exercise_name, reps, weight, load, update.effective_user.id):
             # TODO: save this in a database with date and user_id
-            message = (
-                f'Successfully registered:\n'
-                f'{exercise_name}\n'
-                f'{reps} reps - {weight}kg\n'
-                f'Load - {load}'
-            )
+                message = (
+                    f'Successfully registered:\n'
+                    f'{exercise_name}\n'
+                    f'{reps} reps - {weight}kg\n'
+                    f'Load - {load}'
+                )
+            else:
+                message = 'Error with database'
 
         except ValueError as e:
             logger.error(f'Error processing arguments: {e}')
@@ -104,6 +108,7 @@ async def report_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
     It's an open field. It is possible to report pain, how you slept, how you ate, etc.
     """
     pass
+
 
 # Function echo - reply same text if its not a command
 async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
